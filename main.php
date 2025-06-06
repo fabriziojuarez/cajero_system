@@ -31,7 +31,7 @@ function cantidad_billete(int $monto){
         $cantidad = $cantidad + 1;
         $monto = $monto - $GLOBALS['billetes'][$indice]['valor'];
         if($monto == 0){
-                continue;
+            continue;
         }
         if($GLOBALS['billetes'][$indice]['cantidad'] == 0){
             $result[] = ['valor' => $GLOBALS['billetes'][$indice]['valor'], 'cantidad' => $cantidad];
