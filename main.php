@@ -30,10 +30,10 @@ function cantidad_billete(int $monto){
         $GLOBALS['billetes'][$indice]['cantidad'] = $GLOBALS['billetes'][$indice]['cantidad'] - 1;
         $cantidad = $cantidad + 1;
         $monto = $monto - $GLOBALS['billetes'][$indice]['valor'];
-        if($GLOBALS['billetes'][$indice]['cantidad'] == 0){
-            if($monto == 0){
+        if($monto == 0){
                 continue;
-            }
+        }
+        if($GLOBALS['billetes'][$indice]['cantidad'] == 0){
             $result[] = ['valor' => $GLOBALS['billetes'][$indice]['valor'], 'cantidad' => $cantidad];
             $indice = mayor_valor_posible($monto);
             $cantidad = 0;
