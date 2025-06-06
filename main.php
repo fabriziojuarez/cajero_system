@@ -1,51 +1,57 @@
 <?php
 
-$salida = [];
-
 $billetes = [
     ['valor' => 10, 'cantidad' =>100],
-    ['valor' => 20, 'cantidad' =>20],
-    ['valor' => 50, 'cantidad' =>100],
-    ['valor' => 100, 'cantidad' => 100],
+    ['valor' => 20, 'cantidad' =>2],
+    ['valor' => 50, 'cantidad' =>1],
+    ['valor' => 100, 'cantidad' => 5],
 ];
 
 function mayor_valor_posible(int $monto){
-    $mayor_valor_posible['valor'] = 0;
-    foreach($GLOBALS['billetes'] as $billete){
-        if($monto >= $billete['valor']){
-            if($billete['cantidad'] > 0){
-                if($billete['valor'] > $mayor_valor_posible['valor']){
-                    $mayor_valor_posible = $billete;
+    $billete_mayor['valor'] = 0;
+    $billete_indice = 0;
+    for($i=0; $i<count($GLOBALS['billetes']); $i++){
+        if($monto >= $GLOBALS['billetes'][$i]['valor']){
+            if($GLOBALS['billetes'][$i]['cantidad'] > 0){
+                if($GLOBALS['billetes'][$i]['valor'] > $billete_mayor['valor']){
+                    $billete_indice = $i;
                 }
             }
         }
     }
-    return $mayor_valor_posible;
+    return $billete_indice;
 }
 
-function cantidad_posible(int $monto){
-    $billete_mayor = mayor_valor_posible($monto);
-    //$cantidad_billete = $billete_mayor['cantidad'];
-    $cantidad_usada = 0;
-    while($monto >= $billete_mayor['valor']){
-        $monto = $monto - $billete_mayor['valor'];
-        $cantidad_usada = $cantidad_usada + 1;
+function cantidad_billete(int $monto){
+    $result = array();
+    $indice = mayor_valor_posible($monto);
+    $cantidad = 0;
+    while($monto >= $GLOBALS['billetes'][$indice]['valor']){
+        $GLOBALS['billetes'][$indice]['cantidad'] = $GLOBALS['billetes'][$indice]['cantidad'] - 1;
+        $cantidad = $cantidad + 1;
+        $monto = $monto - $GLOBALS['billetes'][$indice]['valor'];
+        if($GLOBALS['billetes'][$indice]['cantidad'] == 0){
+            if($monto == 0){
+                continue;
+            }
+            $result[] = ['valor' => $GLOBALS['billetes'][$indice]['valor'], 'cantidad' => $cantidad];
+            $indice = mayor_valor_posible($monto);
+            $cantidad = 0;
+        }
     }
-    $result = ['valor' => $billete_mayor['valor'], 'cantidad' => $cantidad_usada];
-    if($monto == 0){
-        return $result;
+    $result[] = ['valor' => $GLOBALS['billetes'][$indice]['valor'], 'cantidad' => $cantidad];
+    if($monto !== 0){
+        $result = array_merge($result, cantidad_billete($monto));
     }
-    //echo var_dump($result);
-    array_push($GLOBALS['salida'], $result, cantidad_posible($monto));
-    return $GLOBALS['salida'];
+    return $result;
 }
 
-//$monto = 80;
 
 
-//echo $GLOBALS['monto'];
-echo var_dump(cantidad_posible(80));
-
-
-//echo var_dump(mayor_valor_posible($GLOBALS['monto']));
-//echo var_dump($GLOBALS['billetes']);
+$monto = readline("Ingrese un monto a retirar: ");
+echo "Billetes obtenidos:".PHP_EOL;
+echo json_encode(cantidad_billete($monto));
+echo PHP_EOL;
+echo "Billetes dejados:".PHP_EOL;
+echo json_encode($GLOBALS['billetes']);
+echo PHP_EOL;
