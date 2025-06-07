@@ -30,4 +30,4 @@ En dado caso de que por ejemplo no haya billetes de 20 o 50, el sistema tendria 
     * Si no es 0(como en nuestro ejemplo que sobro 50): el conteo se unira con el resultante de la funcion "cantidad_billete" con argumento del monto restante(en este caso 50)
 5. Finalmente retorna el valor resultante, siendo un array con el valor del billete y cuantas iteraciones dio en el bucle, y en caso haya determinado que aun se puede retirar esa cantidad, lo retornara unido con el valor resultante de la misma funcion con el argumento del monto restante.
 
-Nota: Aun falta corregir algunas cosas, como mejorar la estructura del codigo y agregar un manejo de errores :3
+Nota: Aun falta corregir algunas cosas, como mejorar la estructura del codigo y agregar un manejo de errores que se agregaran proximamente y una disculpa si no se llega a entender bien el proyecto.
