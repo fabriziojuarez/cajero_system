@@ -52,6 +52,6 @@ $monto = readline("Ingrese un monto a retirar: ");
 echo "Billetes obtenidos:".PHP_EOL;
 echo json_encode(cantidad_billete($monto));
 echo PHP_EOL;
-echo "Billetes dejados:".PHP_EOL;
+echo "Billetes restantes:".PHP_EOL;
 echo json_encode($GLOBALS['billetes']);
 echo PHP_EOL;
