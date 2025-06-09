@@ -30,11 +30,21 @@ function monto_maximo_posible(){
     return $monto_maximo;
 }
 
+function monto_minimo_posible(){
+    $monto_minimo = 999999999;
+    foreach($GLOBALS['billetes'] as $billete){
+        if($billete['valor'] < $monto_minimo){
+            $monto_minimo = $billete['valor'];
+        }
+    }
+    return $monto_minimo;
+}
+
 function cantidad_billete(int $monto){
     $indice = mayor_billete_posible($monto);
     $cantidad = 0;
-    if($monto > monto_maximo_posible()){
-        // RETORNA UN ERROR EN CASO LA CANTIDAD SOLICITADA SUPERA A LA MAXIMA POSIBLE
+    if($monto > monto_maximo_posible() || $monto < monto_minimo_posible()){
+        // RETORNA UN ERROR EN CASO LA CANTIDAD SOLICITADA SUPERA A LO MAXIMA O MINIMO POSIBLE
         return "Error: No se puede emitir esa cantidad :c";
     }
     if($monto == 0){
@@ -55,7 +65,8 @@ function cantidad_billete(int $monto){
 }
 
 $monto = readline("Ingrese un monto a retirar: ");
-echo "Cantidad total: ".monto_maximo_posible().PHP_EOL;
+echo "Cantidad maxima posible: ".monto_maximo_posible().PHP_EOL;
+echo "Cantidad minima posible: ".monto_minimo_posible().PHP_EOL;
 echo "Billetes obtenidos:".PHP_EOL;
 echo json_encode(cantidad_billete($monto)).PHP_EOL;
 echo "Billetes restantes:".PHP_EOL;
