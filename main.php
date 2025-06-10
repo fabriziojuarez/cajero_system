@@ -2,9 +2,9 @@
 
 $billetes = [
     ['valor' => 10, 'cantidad' =>10],
-    ['valor' => 20, 'cantidad' => 1],
+    ['valor' => 20, 'cantidad' => 2],
     ['valor' => 50, 'cantidad' =>1],
-    ['valor' => 100, 'cantidad' => 0],
+    ['valor' => 100, 'cantidad' => 20],
 ];
 
 function mayor_billete_posible(int $monto){
@@ -43,13 +43,14 @@ function monto_minimo_posible(){
 function cantidad_billete(int $monto){
     $indice = mayor_billete_posible($monto);
     $cantidad = 0;
-    if($monto > monto_maximo_posible() || $monto < monto_minimo_posible()){
-        // RETORNA UN ERROR EN CASO LA CANTIDAD SOLICITADA SUPERA A LO MAXIMA O MINIMO POSIBLE
-        return "Error: No se puede emitir esa cantidad :c";
-    }
-    if($monto == 0){
+    if($monto === 0){
         // CUANDO EL MONTO SE REDUZCA A 0, RETORNARA UN ARRAY VACIO
         return [];
+    }
+    if($monto > monto_maximo_posible() || $monto < monto_minimo_posible()){
+        // RETORNA UN ERROR EN CASO LA CANTIDAD SOLICITADA SUPERA A LO MAXIMA O MINIMO POSIBLE
+        echo "Error: No se puede emitir esa cantidad :c";
+        exit;
     }
     while($monto >= $GLOBALS['billetes'][$indice]['valor']){
         // SI EL BILLETE ACTUAL SE QUEDA SIN STOCK SALE DEL BUCLE
@@ -59,14 +60,18 @@ function cantidad_billete(int $monto){
         $GLOBALS['billetes'][$indice]['cantidad'] = $GLOBALS['billetes'][$indice]['cantidad'] - 1;
         $cantidad = $cantidad + 1;
         $monto = $monto - $GLOBALS['billetes'][$indice]['valor'];
+        if($monto < monto_minimo_posible() && $monto !=0){
+            echo "Error: No se puede emitir ese monto";
+            exit;
+        }
     }
     $result[] = ['valor' => $GLOBALS['billetes'][$indice]['valor'], 'cantidad' => $cantidad];
     return array_merge($result, cantidad_billete($monto));
 }
 
+echo "Monto maximo posible: ".monto_maximo_posible().PHP_EOL;
+echo "Monto minimo posible: ".monto_minimo_posible().PHP_EOL;
 $monto = readline("Ingrese un monto a retirar: ");
-echo "Cantidad maxima posible: ".monto_maximo_posible().PHP_EOL;
-echo "Cantidad minima posible: ".monto_minimo_posible().PHP_EOL;
 echo "Billetes obtenidos:".PHP_EOL;
 echo json_encode(cantidad_billete($monto)).PHP_EOL;
 echo "Billetes restantes:".PHP_EOL;
