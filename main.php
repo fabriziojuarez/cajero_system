@@ -1,10 +1,20 @@
 <?php
 
 $billetes = [
-    ['valor' => 10, 'cantidad' =>10],
-    ['valor' => 20, 'cantidad' => 2],
-    ['valor' => 50, 'cantidad' =>1],
-    ['valor' => 100, 'cantidad' => 20],
+    // Billetes Peruanos (soles)
+    // ['valor' => 10, 'cantidad' => 10],
+    // ['valor' => 20, 'cantidad' => 2],
+    // ['valor' => 50, 'cantidad' => 1],
+    // ['valor' => 100, 'cantidad' => 20],
+    // ['valor' => 200, 'cantidad' => 20],
+    // Billetes Estadounidenses (dollars)
+    ['valor' => 1, 'cantidad' => 100],
+    ['valor' => 2, 'cantidad' => 50],
+    ['valor' => 5, 'cantidad' => 0],
+    ['valor' => 10, 'cantidad' => 20],
+    ['valor' => 20, 'cantidad' => 10],
+    ['valor' => 50, 'cantidad' => 20],
+    ['valor' => 100, 'cantidad' => 5],
 ];
 
 function mayor_billete_posible(int $monto){
@@ -76,7 +86,6 @@ if(!is_numeric($monto) || $monto != intval($monto)){
     echo "Error: Ingresar un numero entero";
     exit;
 }
-echo $monto.PHP_EOL;
 echo "Billetes obtenidos:".PHP_EOL;
 echo json_encode(cantidad_billete($monto)).PHP_EOL;
 echo "Billetes restantes:".PHP_EOL;
