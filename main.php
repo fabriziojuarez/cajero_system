@@ -72,6 +72,11 @@ function cantidad_billete(int $monto){
 echo "Monto maximo posible: ".monto_maximo_posible().PHP_EOL;
 echo "Monto minimo posible: ".monto_minimo_posible().PHP_EOL;
 $monto = readline("Ingrese un monto a retirar: ");
+if(!is_numeric($monto) || $monto != intval($monto)){
+    echo "Error: Ingresar un numero entero";
+    exit;
+}
+echo $monto.PHP_EOL;
 echo "Billetes obtenidos:".PHP_EOL;
 echo json_encode(cantidad_billete($monto)).PHP_EOL;
 echo "Billetes restantes:".PHP_EOL;
